@@ -10,6 +10,7 @@ import java.io.Reader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by LaunchCode
@@ -76,12 +77,31 @@ public class JobData {
 
             String aValue = row.get(column);
 
-            if (aValue.contains(value)) {
+            if (aValue.toLowerCase().contains(value)) {
                 jobs.add(row);
             }
         }
 
         return jobs;
+    }
+
+    public static ArrayList<HashMap<String, String>> findByValue(String term) {
+        loadData();
+        ArrayList<HashMap<String, String>> jobs2 = new ArrayList<>();
+        for (HashMap<String, String> row : allJobs) {
+            for (Map.Entry<String, String> eachPair : row.entrySet()) {
+                if (eachPair.getValue().toLowerCase().contains(term)) {
+                    jobs2.add(row);
+                }
+            }
+
+//            The following does not work because .containsValue() returns true only if term is strictly equal to a value:
+//            if (row.containsValue(term)) {
+//                jobs2.add(row);
+//            }
+
+        }
+        return jobs2;
     }
 
     /**
